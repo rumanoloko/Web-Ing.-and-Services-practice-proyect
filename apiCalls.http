@@ -1,0 +1,61 @@
+### Crear usuario
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "email": "johndoe3@example.com",
+  "password": "1234",
+  "name": "John",
+  "surname": "Doe",
+  "address": "123 Main St, 12345 New York, United States",
+  "birthdate": "1970-01-01",
+  "cartItems": [],
+  "orders": []
+}
+
+### Obtener usuario por ID
+GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb
+Accept: application/json
+
+### Obtener todos los prdoductos
+GET http://localhost:3002/api/products
+Accept: application/json
+
+### Obtener productos por el Id
+GET http://localhost:3002/api/products/68dffc3c7762a61205b89347
+Accept: application/json
+
+### Obtener productos del carrito de un usuario con determinado ID
+GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/cart
+Accept: application/json
+
+### Put de un producto en el carrito de un usuario
+PUT http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/cart/68e043cbf86b7fa16e1fade6
+Content-type: application/json
+
+{
+  "qty": 10
+}
+
+
+### Eliminación de un producto en el carrito de un usuario
+DELETE http://localhost:3000/api/users/68e043ccf86b7fa16e1fadfb/cart/68e043cbf86b7fa16e1fade6
+Content-type: application/json
+
+### Get de la lista orders de un usuario especifico
+GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/orders
+
+### Get de una order segun el id del usuario y de la order
+GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/orders/68e043ccf86b7fa16e1fadf3
+
+### POST de una nueva order para un usuario especifico
+POST http://localhost:3003/api/users/68e043ccf86b7fa16e1fadfb/orders
+Content-type: application/json
+
+{
+  "address": "Valle de los caidos nr.15",
+  "cardHolder": "0123456789",
+  "cardNumber": "1234"
+}
+
+
