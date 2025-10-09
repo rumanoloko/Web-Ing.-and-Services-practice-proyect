@@ -2,7 +2,7 @@ import {Types} from 'mongoose';
 import {NextRequest, NextResponse} from 'next/server';
 import {
   ErrorResponse,
-  getProducts,
+  getProduct,
   GetProductResponse, GetProductsResponse,
 } from '@/lib/handlers'
 import Product from '@/models/Product'
@@ -11,7 +11,7 @@ import Product from '@/models/Product'
 export async function GET(
   request: NextRequest,
   {params}: {params: {productId: string}}
-): Promise<NextResponse<GetProductResponse | ErrorResponse | GetProductsResponse>>
+): Promise<NextResponse<GetProductResponse | ErrorResponse>>
 {
   if(!Types.ObjectId.isValid(params.productId)){
     return NextResponse.json(
@@ -23,8 +23,8 @@ export async function GET(
     );
   };
 
-  const products = await getProducts(params.productId);
-  if(products === null){
+  const product = await getProduct(params.productId);
+  if(product === null){
     return NextResponse.json(
       {
         error: 'NOT_FOUND',
@@ -35,5 +35,5 @@ export async function GET(
       }
     );
   }
-  return NextResponse.json(products);
+  return NextResponse.json(product);
 }

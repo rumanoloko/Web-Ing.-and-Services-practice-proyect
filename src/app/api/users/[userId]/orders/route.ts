@@ -43,24 +43,16 @@ export async function POST(
 ): Promise<NextResponse<{_id: Types.ObjectId} | ErrorResponse | null>>{
   const body = await request.json();
   const {userId} = params;
-
-  if(!Types.ObjectId.isValid(userId)){
-    return NextResponse.json(
-      {
-        error: 'WRONG_PARAMS',
-        message: 'Invalid userId'
-      },
-      {status: 400});
-  }
   if(
+    !Types.ObjectId.isValid(userId) ||
     !body.address ||
     !body.cardHolder ||
     !body.cardNumber
   ){
     return NextResponse.json(
       {
-        error: 'WRONG_BODY_REQUEST',
-        message: 'Wrong address, cardHolder or cardNumber body data'
+        error: 'WRONG_PARAMETER_OR_BODY_REQUEST',
+        message: 'Invalid user ID or invalid request'
       },
       {status: 400});
   }
