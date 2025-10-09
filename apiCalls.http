@@ -18,7 +18,7 @@ GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb
 Accept: application/json
 
 ### Obtener todos los prdoductos
-GET http://localhost:3002/api/products
+GET http://localhost:3000/api/products
 Accept: application/json
 
 ### Obtener productos por el Id
@@ -30,7 +30,7 @@ GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/cart
 Accept: application/json
 
 ### Put de un producto en el carrito de un usuario
-PUT http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/cart/68e043cbf86b7fa16e1fade6
+PUT http://localhost:3000/api/users/68e043ccf86b7fa16e1fadfb/cart/68e043cbf86b7fa16e1fade6
 Content-type: application/json
 
 {
@@ -43,10 +43,10 @@ DELETE http://localhost:3000/api/users/68e043ccf86b7fa16e1fadfb/cart/68e043cbf86
 Content-type: application/json
 
 ### Get de la lista orders de un usuario especifico
-GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/orders
+GET http://localhost:3000/api/users/68e043ccf86b7fa16e1fadfb/orders
 
 ### Get de una order segun el id del usuario y de la order
-GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/orders/68e043ccf86b7fa16e1fadf3
+GET http://localhost:3000/api/users/68e043ccf86b7fa16e1fadfb/orders/68e043ccf86b7fa16e1fadf3
 
 ### POST de una nueva order para un usuario especifico
 POST http://localhost:3003/api/users/68e043ccf86b7fa16e1fadfb/orders
@@ -58,4 +58,14 @@ Content-type: application/json
   "cardNumber": "1234"
 }
 
+### POST para el login en el sistema
+POST http://localhost:3000/api/auth/signin
+Content-type: application/json
 
+{
+  "email": "petru@petru.com",
+  "password": "petru"
+}
+
+### POST para el login en el sistema
+POST http://localhost:3000/api/auth/signout
