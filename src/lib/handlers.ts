@@ -1,7 +1,7 @@
 import Orders, { Order } from '@/models/Order';
 import Products, { Product } from '@/models/Product';
 import Users, { User, CartItem} from'@/models/User';
-
+import bcrypt from 'bcrypt';
 
 import connect from '@/lib/mongoose';
 import mongoose, { Types } from 'mongoose';
@@ -44,6 +44,40 @@ export interface GetUserCartResponse {
   cartItems: CartItem[];
 }
 
+export interface CheckCredentialsResponse {
+  _id: Types.ObjectId;
+}
+
+
+
+
+
+
+
+export async function checkCredentials(
+  email: string,
+  password: string,
+  ): Promise<CheckCredentialsResponse | null>
+{
+  await connect();
+
+  console.log("Dentro del handler")
+  console.log("CONTRASEÑA")
+  console.log(password)
+  console.log("CORREO")
+  console.log(email)
+  const user = await Users.findOne({email:email});
+  console.log("Contenido de user");
+  console.log(user);
+
+  console.log('COMPARACION DE CONTRASEÑAS')
+  const match = await bcrypt.compare(password, user.password)
+  console.log(match)
+  if( match) return { _id: user._id}
+  return null;
+}
+
+
 export async function createUser(user: {
   email: string
   password: string
@@ -59,8 +93,11 @@ export async function createUser(user: {
     return null
   }
 
+  const hash = await bcrypt.hash(user.password, 10)
+
   const doc: User = {
     ...user,
+    password: hash,
     birthdate: new Date(user.birthdate),
     cartItems: [],
     orders: [],
@@ -96,8 +133,6 @@ export async function deleteCartItem(
   return await getUserCart(userId)
 }
 
-
-
 export async function putCartItem(
   userId: Types.ObjectId | string,
   productId: Types.ObjectId | string,
@@ -125,40 +160,18 @@ export async function putCartItem(
   return [index === -1, await getUserCart(userId)]
 }
 
-export async function getProducts(
-  productId?: Types.ObjectId | string):
-  Promise<GetProductsResponse | GetProductResponse | null> {
+export async function getProducts():
+  Promise<GetProductsResponse| null> {
   await connect();
 
   const productsProjection = {
     __v: false,
   };
-  if(productId) {
-    const productProyection ={
-      name: true,
-      description: true,
-      img: true,
-      price: true,
-    }
+  const products = await Products.find({}, productsProjection);
 
-    const product = await Products.findById(productId, productProyection);
-    if(product === null){
-      return null
-    }
-    return {
-      _id: product._id,
-      name: product.name,
-      description: product.description,
-      img: product.img,
-      price: product.price,
-    }
-  }else{
-    const products = await Products.find({}, productsProjection);
-
-    return {
-      products,
-    };
-  }
+  return {
+    products: products,
+  };
 }
 export async function getProduct(productId: Types.ObjectId | string): Promise<GetProductResponse | null>{
   await connect();
