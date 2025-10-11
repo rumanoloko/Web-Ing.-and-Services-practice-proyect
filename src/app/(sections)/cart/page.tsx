@@ -1,46 +1,21 @@
+// src/app/(sections)/cart/page.tsx
+import CartClient from '@/components/CartClient';
 import { getSession } from '@/lib/auth';
+import { getUserCart } from '@/lib/handlers';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
-import { getUserCart } from '@/lib/handlers'; // Ajusta la ruta según tu proyecto
 
-export default async function Cart() {
+export default async function CartPage() {
   const session = await getSession();
-
-  if (!session) {
-    redirect('/auth/signin');
-  }
+  if (!session) redirect('/auth/signin');
 
   const cartItemsData = await getUserCart(session.userId);
-
-  if (!cartItemsData) {
-    redirect('/auth/signin');
-  }
-
-  return (
-    <div className="flex flex-col">
-      <h3 className="pb-4 text-3xl font-bold text-gray-900 sm:pb-6 lg:pb-8">
-        My Shopping Cart
-      </h3>
-
-      {cartItemsData.cartItems.length === 0 ? (
-        <div className="text-center">
-          <span className="text-sm text-gray-400">The cart is empty</span>
-        </div>
-      ) : (
-        <>
-          {cartItemsData.cartItems.map((cartItem) => (
-            <div key={cartItem.product._id.toString()}>
-              <Link href={`/products/${cartItem.product._id.toString()}`}>
-                {cartItem.product.name}
-              </Link>
-              <br />
-              {cartItem.qty}
-              <br />
-              {cartItem.product.price.toFixed(2) + ' €'}
-            </div>
-          ))}
-        </>
-      )}
-    </div>
-  );
+  if (!cartItemsData) redirect('/auth/signin');
+  const cartItems = cartItemsData.cartItems.map(item => ({
+    ...item,
+    product: {
+      ...item.product,
+      _id: item.product._id.toString(), // ← convierte ObjectId a string
+    }
+  }));
+  return <CartClient initialCartItems={cartItems} />;
 }
