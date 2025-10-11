@@ -265,6 +265,14 @@ const products: Product[] = [
   product: insertedProducts[1]._id,
   qty:5,
   },
+  {
+   product: insertedProducts[2]._id,
+   qty:1,
+  },
+  {
+   product: insertedProducts[5]._id,
+   qty:2,
+  }
   ],
   orders:[
     insertedOrders[0]._id, insertedOrders[1]._id
