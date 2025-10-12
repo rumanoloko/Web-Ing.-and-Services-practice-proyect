@@ -58,7 +58,7 @@ export default function UnicProduct({ product, userId }: PrompType) {
     };
 
     if (quantity > 0) updateQuantity();
-  }, [quantity, product._id, userId]);
+  }, [quantity]);
 
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () => {

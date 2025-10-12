@@ -27,7 +27,7 @@ export default async function Navbar() {
                 alt='GameShop logo'
               />
               <div className='inline-block w-auto text-xl font-semibold'>
-                Car Dealership
+                Dealership&#39;s catalog
               </div>
             </Link>
           </div>
@@ -46,7 +46,7 @@ export default async function Navbar() {
                   <UserIcon className='h-6 w-6' aria-hidden='true' />
                 </NavbarButton>
 
-                <NavbarButton href='#'>
+                <NavbarButton href='/auth/signout'>
                   <span className='sr-only'>Sign out</span>
                   <ArrowRightStartOnRectangleIcon
                     className='h-6 w-6'
