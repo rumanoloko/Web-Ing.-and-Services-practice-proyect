@@ -1,9 +1,9 @@
 ### Crear usuario
-POST http://localhost:3000/api/users
+POST http://localhost:3002/api/users
 Content-Type: application/json
 
 {
-  "email": "johndoe3@example.com",
+  "email": "johndoe33@example.com",
   "password": "1234",
   "name": "John",
   "surname": "Doe",
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### Obtener usuario por ID
-GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb
+GET http://localhost:3002/api/users/68eadbb6559cdcf47ed4a931
 Accept: application/json
 
 ### Obtener todos los prdoductos
@@ -26,7 +26,7 @@ GET http://localhost:3002/api/products/68dffc3c7762a61205b89347
 Accept: application/json
 
 ### Obtener productos del carrito de un usuario con determinado ID
-GET http://localhost:3002/api/users/68e043ccf86b7fa16e1fadfb/cart
+GET http://localhost:3002/api/users/68eadbb6559cdcf47ed4a931/cart
 Accept: application/json
 
 ### Put de un producto en el carrito de un usuario

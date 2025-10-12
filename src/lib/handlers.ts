@@ -1,4 +1,4 @@
-import Orders, { Order } from '@/models/Order';
+import Orders, { Order, OrderItem} from '@/models/Order';
 import Products, { Product } from '@/models/Product';
 import Users, { User, CartItem} from'@/models/User';
 import bcrypt from 'bcrypt';
@@ -71,9 +71,11 @@ export async function checkCredentials(
   console.log(user);
 
   console.log('COMPARACION DE CONTRASEÑAS')
-  const match = await bcrypt.compare(password, user.password)
-  console.log(match)
-  if( match) return { _id: user._id}
+  if(user){
+    const match = await bcrypt.compare(password, user.password)
+    console.log(match)
+    if( match) return { _id: user._id}
+  }
   return null;
 }
 
@@ -253,6 +255,7 @@ export async function createOrder
    address: string,
    cardHolder: string,
    cardNumber: string,
+   orderItems: OrderItem[],
  })
   :Promise< {_id: Types.ObjectId} | ErrorResponse >
   {
@@ -260,7 +263,7 @@ export async function createOrder
     const doc:Order = {
       ...order,
       date: new Date(),
-      orderItems: []
+      orderItems: order.orderItems && order.orderItems.length ? order.orderItems : [],
     }
     const newOrder = await Orders.create(doc)
 
