@@ -8,7 +8,7 @@ export default async function CartPage() {
   const session = await getSession();
   if (!session) redirect('/auth/signin');
 
-  const cartItemsData = await getUserCart(session.userId);
+  /*const cartItemsData = await getUserCart(session.userId);
   if (!cartItemsData) redirect('/auth/signin');
   const cartItems = cartItemsData.cartItems.map(item => ({
     ...item,
@@ -17,5 +17,6 @@ export default async function CartPage() {
       _id: item.product._id.toString(), // ← convierte ObjectId a string
     }
   }));
-  return <CartClient initialCartItems={cartItems} />;
+   */
+  return <CartClient userId={session.userId} />;
 }
