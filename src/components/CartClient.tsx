@@ -20,32 +20,25 @@ export default function CartClient({ userId }: { userId: string }) {
       try {
         const res = await fetch(`/api/users/${userId}/cart`);
         const {cartItems} = res.ok ? await res.json() : [];
-        setCartItems(
-          Array.isArray(cartItems)
-            ? cartItems.map(item => ({
-              qty: item.qty,
-              product: {
-                ...item.product,
-                _id: item.product._id.toString(),
-              },
-            }))
-            : []
-        );
+        if(Array.isArray(cartItems) && cartItems.length > 0) {
+          setCartItems(cartItems);
+        }else{
+          setCartItems([]);
+        }
       } catch {
+        console.error('Error while fetching cart\'s cart info');
         setCartItems([]);
       } finally {
         setLoading(false);
         localStorage.setItem('cart', JSON.stringify(cartItems));
       }
-      console.log("CONTENIDO");
-      console.log(cartItems);
     };
-
     getCartCall();
   }, []);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
+    console.log(cartItems);
   }, [cartItems]);
 
   const updateItemQuantity =
