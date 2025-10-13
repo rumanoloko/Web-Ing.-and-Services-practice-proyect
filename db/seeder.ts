@@ -1,4 +1,4 @@
-import Users, { User } from'@/models/User';
+/*import Users, { User } from'@/models/User';
 import Products, { Product } from '@/models/Product';
 import Orders, { Order, OrderItem} from '@/models/Order';
 import dotenv from'dotenv';
@@ -292,3 +292,4 @@ const products: Product[] = [
  await conn.disconnect();
  }
 seed().catch(console.error);
+ */
