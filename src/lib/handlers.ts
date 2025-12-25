@@ -169,7 +169,7 @@ export async function getProducts():
   const productsProjection = {
     __v: false,
   };
-  const products = await Products.find({}, productsProjection);
+  const products = await Products.find({}, productsProjection).lean();
 
   return {
     products: products,
@@ -185,12 +185,12 @@ export async function getProduct(productId: Types.ObjectId | string): Promise<Ge
     price: true,
   }
 
-  const product = await Products.findById(productId, productProjection);
+  const product = await Products.findById(productId, productProjection).lean();
   if(!product){
     return null;
   }
   return {
-    _id: product._id,
+    _id: product._id.toString(),
     name: product.name,
     description: product.description,
     img: product.img,
@@ -210,7 +210,7 @@ export async function getUser(
     address:true,
     birthdate:true,
   }
-  
+
   const user= await Users.findById(userId, userProjection)
   return user
 }
@@ -272,6 +272,7 @@ export async function createOrder
     if(!user) throw new Error("User not found");
 
     user.orders.push(newOrder._id);
+    user.cartItems = [];
     await user.save();
     return {
       _id: newOrder._id
@@ -292,8 +293,7 @@ export async function getUserCart(
     .populate({
       path: 'cartItems.product',
       select: '_id name description img price'
-    })
-    .lean();
+    }).lean();
 
   if (!userCart) return null;
 

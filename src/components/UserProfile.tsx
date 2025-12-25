@@ -75,7 +75,7 @@ export default function UserProfile({ userId }: UserProfileProps) {
   if (!user) return <p className="text-center py-6">User not found.</p>;
 
   return (
-    <section className="max-w-5xl mx-auto px-6 py-12">
+    <section className="max-w-5xl mx-auto px-6 py-12 text-gray-800">
       <h1 className="text-3xl font-bold mb-6">User Profile</h1>
       <div className="bg-gradient-to-br from-white to-gray-50 shadow-lg rounded-xl p-6 mb-8 border border-gray-200">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Personal Information</h2>
@@ -109,15 +109,15 @@ export default function UserProfile({ userId }: UserProfileProps) {
             <div key={order._id} className="bg-gray-100 rounded-lg p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p className="font-semibold text-gray-700">Order ID</p>
+                  <p className="font-semibold text-black">Order ID</p>
                   <p>{order._id}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-700">Address</p>
+                  <p className="font-semibold text-black">Address</p>
                   <p>{order.address}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-700">Card Information</p>
+                  <p className="font-semibold text-black">Card Information</p>
                   <p><strong>Cardholder:</strong> {order.cardHolder}</p>
                   <p><strong>Card Number:</strong> **** **** **** {order.cardNumber}</p>
                 </div>

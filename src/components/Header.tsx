@@ -6,7 +6,7 @@ export default function Header() {
           Bumped Bumpers
         </h1>
         <p className='mt-4 text-sm leading-8 text-gray-400 sm:mt-6 sm:text-base lg:text-lg'>
-          This e-shop was made to grab cash and scam your sorry ass. If you're broke, get lost.... we ain't wasting time on freeloaders!
+          This e-shop was made to grab cash and scam you ;D
         </p>
       </div>
     </header>

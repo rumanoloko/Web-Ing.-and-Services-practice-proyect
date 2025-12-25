@@ -12,7 +12,9 @@ export async function GET(
   { params }: { params: { userId: string } }
 ): Promise<NextResponse<GetUserResponse> | NextResponse<ErrorResponse>> {
   const session = await getSession();
-
+  console.log("Session: ", session);
+  console.log("UserId: ", params.userId);
+  console.log(session?.userId === params.userId);
   if (!session?.userId) {
     return NextResponse.json(
       {

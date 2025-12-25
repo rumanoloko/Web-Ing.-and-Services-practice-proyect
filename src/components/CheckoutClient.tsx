@@ -85,17 +85,17 @@ export default function CheckoutClient({userId}:{userId: string}) {
 
 
   return (
-    <div className="flex flex-col gap-8">
-      <h2 className="text-3xl font-bold text-gray-900">Order Summary</h2>
+    <div className="flex flex-col gap-8 text-black">
+      <h2 className="text-3xl font-bold">Order Summary</h2>
 
       {/* Tabla de productos */}
       <table className="w-full table-auto border-collapse border border-gray-300">
         <thead className="bg-gray-100">
-        <tr>
-          <th className="border px-4 py-2 text-left">Product Name</th>
-          <th className="border px-4 py-2 text-center">Quantity</th>
-          <th className="border px-4 py-2 text-right">Price</th>
-          <th className="border px-4 py-2 text-right">Total</th>
+        <tr className="border px-4 py-2">
+          <th className="text-left">Product Name</th>
+          <th className="text-center">Quantity</th>
+          <th className="text-right">Price</th>
+          <th className="text-right">Total</th>
         </tr>
         </thead>
         <tbody>
@@ -116,7 +116,7 @@ export default function CheckoutClient({userId}:{userId: string}) {
       {/* Campos de pago en una fila */}
       <div className="flex flex-col gap-4">
         <label className="flex flex-col">
-          <span className="text-sm font-medium text-gray-700">Shopping Address</span>
+          <span className="text-sm font-semibold text-gray-700">Shopping Address</span>
           <input
             type="text"
             value={address}
@@ -129,7 +129,7 @@ export default function CheckoutClient({userId}:{userId: string}) {
         {/* Card Holder y Card Number en la misma fila */}
         <div className="flex gap-4">
           <label className="flex flex-col flex-1">
-            <span className="text-sm font-medium text-gray-700">Card Holder</span>
+            <span className="text-sm font-semibold text-gray-700">Card Holder</span>
             <input
               type="text"
               value={cardHolder}
@@ -140,7 +140,7 @@ export default function CheckoutClient({userId}:{userId: string}) {
           </label>
 
           <label className="flex flex-col flex-1">
-            <span className="text-sm font-medium text-gray-700">Card Number</span>
+            <span className="text-sm font-semibold text-gray-700">Card Number</span>
             <input
               type="text"
               value={cardNumber}
@@ -152,7 +152,6 @@ export default function CheckoutClient({userId}:{userId: string}) {
         </div>
       </div>
 
-      {/* Botón de compra con ancho ajustado */}
       <div className="mt-6 flex justify-center">
         <button
           onClick={handlePurchase}

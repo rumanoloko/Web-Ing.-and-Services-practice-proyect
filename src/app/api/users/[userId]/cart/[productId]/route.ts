@@ -4,22 +4,35 @@ import {Types} from 'mongoose'
 import {
   GetUserCartResponse,
   getUser,
-  getProducts,
+  getProduct,
   putCartItem,
   deleteCartItem,
   ErrorResponse,
 } from '@/lib/handlers'
 import connect from '@/lib/mongoose'
+import {getSession} from "@/lib/auth";
 
 
 export async function DELETE(
   request: NextRequest,
   {params}:{params: {userId: string, productId: string}}
 ):Promise<NextResponse<GetUserCartResponse | ErrorResponse | null>>{
-  await connect();
-
   const {userId} = params
   const {productId} = params
+  const session = await getSession();
+  console.log("Session: ", session);
+  console.log("UserId: ", userId);
+  if (!session?.userId/* && session?.userId !== userId*/) {
+    return NextResponse.json(
+        {
+          error: 'NOT_AUTHENTICATED',
+          message: 'Authentication required.',
+        },
+        { status: 401 }
+    );
+  }
+
+  await connect();
 
   if(!Types.ObjectId.isValid(userId) || !Types.ObjectId.isValid(productId)) {
     return NextResponse.json({
@@ -30,7 +43,7 @@ export async function DELETE(
     });
   }
   const user = await getUser(userId)
-  const product = await getProducts(productId)
+  const product = await getProduct(productId)
 
   if(!user || !product) {
     return NextResponse.json({
@@ -54,6 +67,22 @@ export async function PUT(
   request: NextRequest,
   {params}:{params: { userId: string, productId: string}}
 ):Promise<NextResponse<GetUserCartResponse | ErrorResponse | null>>{
+
+
+  const session = await getSession();
+  console.log("Session: ", session);
+  console.log("UserId: ", params.userId);
+  if (!session?.userId/* && session?.userId !== userId*/) {
+    return NextResponse.json(
+        {
+          error: 'NOT_AUTHENTICATED',
+          message: 'Authentication required.',
+        },
+        { status: 401 }
+    );
+  }
+
+
   await connect()
 
   const {userId} = params
@@ -69,7 +98,7 @@ export async function PUT(
     });
   }
   const user = await getUser(userId)
-  const product = await getProducts(productId)
+  const product = await getProduct(productId)
 
   if(!user || !product) {
     return NextResponse.json({

@@ -167,7 +167,7 @@ const products: Product[] = [
  const orders: Order[] = [
   {
    date: new Date('2025-06-07'),
-   address: 'Valle de los caidos nr.15',
+   address: 'Calle Simón Sagra Hortega nr.15',
    cardHolder: '0123456789',
    cardNumber: '1234',
    orderItems: [
@@ -185,7 +185,7 @@ const products: Product[] = [
   },
   {
    date: new Date('2024-12-12'),
-   address: 'Valle de los caidos nr.27',
+   address: 'Calle Simón Sagra Hortega nr.27',
    cardHolder: '9876543210',
    cardNumber: '2345',
    orderItems: [
@@ -203,7 +203,7 @@ const products: Product[] = [
   },
   {
    date: new Date('2024-12-12'),
-   address: 'Valle de los caidos nr.27',
+   address: 'Calle Simón Sagra Hortega nr.27',
    cardHolder: '9876543210',
    cardNumber: '2345',
    orderItems: [
@@ -221,7 +221,7 @@ const products: Product[] = [
   },
   {
    date: new Date('2025-01-08'),
-   address: 'Valle de los caidos nr.3',
+   address: 'Calle Simón Sagra Hortega nr.3',
    cardHolder: '9876543210',
    cardNumber: '2345',
    orderItems: [
@@ -265,11 +265,76 @@ const products: Product[] = [
     insertedOrders[0]._id, insertedOrders[1]._id
   ],
   };
- const hash = await bcrypt.hash(user.password, 10)
-  user.password = hash
- const res= await Users.create(user);
-  //const res= await Users.find();
 
+  const user2: User= {
+   email: 'vlad@example.com',
+   password:'1234',
+   name: 'Vlad',
+   surname:'Pasat',
+   address:'123 Main St, 12345 New York, United States',
+   birthdate:new Date('1970-01-01'),
+   cartItems: [
+    {
+     product: insertedProducts[0]._id,
+     qty:2,
+    },
+    {
+     product: insertedProducts[1]._id,
+     qty:5,
+    },
+    {
+     product: insertedProducts[2]._id,
+     qty:1,
+    },
+    {
+     product: insertedProducts[5]._id,
+     qty:2,
+    }
+   ],
+   orders:[
+    insertedOrders[1]._id
+   ],
+  };
+
+  const user3: User= {
+   email: 'petru@example.com',
+   password:'1234',
+   name: 'Petru',
+   surname:'Vlad',
+   address:'123 Main St, 12345 New York, United States',
+   birthdate:new Date('1970-01-01'),
+   cartItems: [
+    {
+     product: insertedProducts[0]._id,
+     qty:2,
+    },
+    {
+     product: insertedProducts[7]._id,
+     qty:5,
+    },
+    {
+     product: insertedProducts[2]._id,
+     qty:1,
+    },
+    {
+     product: insertedProducts[6]._id,
+     qty:2,
+    }
+   ],
+   orders:[
+    insertedOrders[0]._id
+   ],
+  };
+  let hash = await bcrypt.hash(user.password, 10)
+  user.password = hash
+  hash = await bcrypt.hash(user2.password, 10)
+  user2.password = hash
+  hash = await bcrypt.hash(user3.password, 10)
+  user3.password = hash
+ const res= await Users.create(user);
+  const res2= await Users.create(user2);
+  const res3= await Users.create(user3);
+  //const res= await Users.find();
 
   const userProjection = {
  name: true,

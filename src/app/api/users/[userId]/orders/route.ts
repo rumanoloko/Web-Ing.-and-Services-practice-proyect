@@ -7,6 +7,7 @@ import {
   getOrder,
   createOrder,
 } from '@/lib/handlers'
+import {getSession} from "@/lib/auth";
 
 
 export async function GET(
@@ -14,6 +15,20 @@ export async function GET(
   {params}:{params: {userId: string}}
 ): Promise<NextResponse<GetOrderResponse | ErrorResponse | null>>{
   const {userId} = params
+
+  const session = await getSession();
+
+    if (!session?.userId && session?.userId !== userId) {
+        return NextResponse.json(
+            {
+                error: 'NOT_AUTHENTICATED',
+                message: 'Authentication required.',
+            },
+            { status: 401 }
+        );
+    }
+
+
   if(!Types.ObjectId.isValid(params.userId)){
     return NextResponse.json(
       {
@@ -22,9 +37,9 @@ export async function GET(
       },
       {status: 400});
   }
-
+  console.log("ID del usuario pasado como parametro: ",userId)
   const user = await getUser(userId);
-
+  console.log("Usuario recibido: ",userId)
   if(!user){
     return NextResponse.json({
       error: 'NOT FOUND',
@@ -42,6 +57,7 @@ export async function POST(
   {params}:{params: {userId: string}}
 ): Promise<NextResponse<{_id: Types.ObjectId} | ErrorResponse | null>>{
   const body = await request.json();
+  console.log("BODY CONTENT: ",body);
   const {userId} = params;
   if(
     !Types.ObjectId.isValid(userId) ||
@@ -56,7 +72,9 @@ export async function POST(
       },
       {status: 400});
   }
-  const user = await getUser(userId);
+    console.log("ID del usuario pasado como parametro: ",userId)
+    const user = await getUser(userId);
+    console.log("Usuario recibido: ",user)
   if(!user){
     return NextResponse.json(
       {
@@ -65,7 +83,15 @@ export async function POST(
       },
       {status: 404});
   }
-
+  const {cartItems} = body
+  if(body.orderItems.length === 0){
+      return NextResponse.json(
+          {
+              error: 'NOT_ACCEPTABLE_OPERATION',
+              message: 'The user cart is empty'
+          },
+          {status: 406});
+  }
   const orderId = await createOrder(userId, body);
   const headers = new Headers();
   headers.append('Location', `/api/users/${userId}/orders/${orderId}`);

@@ -21,7 +21,7 @@ export async function GET(
       },
       {status: 400}
     );
-  };
+}
 
   const product = await getProduct(params.productId);
   if(product === null){

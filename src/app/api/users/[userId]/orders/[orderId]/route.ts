@@ -7,6 +7,7 @@ import {
   getUser,
   getOrderById,
 } from '@/lib/handlers'
+import {getSession} from "@/lib/auth";
 
 
 export async function GET(
@@ -15,7 +16,21 @@ export async function GET(
 ): Promise<NextResponse<Order | ErrorResponse | null>>{
   const {userId} = params
   const {orderId} = params
-  if(!Types.ObjectId.isValid(userId) || !Types.ObjectId.isValid(userId)){
+  const session = await getSession();
+  console.log("Session: ", session);
+  console.log("UserId: ", userId);
+  if (!session?.userId/* && session?.userId !== userId*/) {
+    return NextResponse.json(
+        {
+          error: 'NOT_AUTHENTICATED',
+          message: 'Authentication required.',
+        },
+        { status: 401 }
+    );
+  }
+
+
+  if(!Types.ObjectId.isValid(userId) || !Types.ObjectId.isValid(orderId)){
     return NextResponse.json(
       {
         error: 'WRONG_PARAMS',
