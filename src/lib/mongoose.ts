@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI ??
-    "mongodb://127.0.0.1:27017/local_mongoDB";
+const MONGODB_URI = process.env.MONGODB_URI ?? "";
 
 if (!MONGODB_URI) {
   throw new Error(
@@ -10,20 +9,32 @@ if (!MONGODB_URI) {
 }
 
 /**
- * Declaración global para que TypeScript reconozca `global.mongoose`.
+ * Tipado estricto para la caché global.
+ */
+interface MongooseCache {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
+}
+
+/**
+ * Declaración global para TypeScript.
  */
 declare global {
   // eslint-disable-next-line no-var
-  var mongoose: { conn: any; promise: any } | undefined;
+  var mongoose: MongooseCache | undefined;
 }
 
 /**
  * Inicializamos la caché de forma segura.
  */
-let cached = global.mongoose ?? { conn: null, promise: null };
+const cached: MongooseCache = global.mongoose ?? {
+  conn: null,
+  promise: null,
+};
+
 global.mongoose = cached;
 
-async function connect() {
+async function connect(): Promise<Mongoose> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -33,9 +44,7 @@ async function connect() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, opts);
   }
 
   try {
