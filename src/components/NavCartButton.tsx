@@ -30,10 +30,10 @@ export default async function NavbarCartButton({
       <div className='absolute -right-2 -top-2 inline-flex h-6 w-6 items-center
 justify-center rounded-full border-2 border-white bg-red-500 text-xsfont-bold
 text-white dark:border-gray-900'>
-        {cartItemsData.cartItems.reduce(
+        {cartItemsData?.cartItems?.reduce(
           (partialSum, cartItem) =>partialSum+ cartItem.qty,
           0
-        )}
+        ) ?? 0}
       </div>
     </Link>
   )
