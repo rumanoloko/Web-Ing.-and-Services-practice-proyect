@@ -190,7 +190,7 @@ export async function getProduct(productId: Types.ObjectId | string): Promise<Ge
     return null;
   }
   return {
-    _id: product._id.toString(),
+    _id: product._id,
     name: product.name,
     description: product.description,
     img: product.img,

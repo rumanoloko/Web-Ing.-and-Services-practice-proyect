@@ -108,18 +108,19 @@ export default function CartClient({ userId }: { userId: string }) {
               </div>
 
               {cartItems.map(cartItem => (
-                  <div key={cartItem.product._id} className="py-3">
+
+                  <div key={String(cartItem.product._id)} className="py-3">
                     <ShoppingCartProduct
                         product={cartItem.product}
                         qty={cartItem.qty}
                         onQuantityChange={newQty =>
                             updateItemQuantity({
-                              productId: cartItem.product._id,
+                              productId: String(cartItem.product._id),
                               quantity: newQty,
                             })
                         }
                         onRemove={() =>
-                            removeItemFromCart(cartItem.product._id)
+                            removeItemFromCart(String(cartItem.product._id))
                         }
                     />
                   </div>
