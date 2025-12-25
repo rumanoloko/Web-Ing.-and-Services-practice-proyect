@@ -1,22 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI ??
+    "mongodb://127.0.0.1:27017/local_mongoDB";
+
 if (!MONGODB_URI) {
   throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
+      "Please define the MONGODB_URI environment variable inside .env.local"
   );
 }
 
 /**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
+ * Declaración global para que TypeScript reconozca `global.mongoose`.
  */
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: { conn: any; promise: any } | undefined;
 }
+
+/**
+ * Inicializamos la caché de forma segura.
+ */
+let cached = global.mongoose ?? { conn: null, promise: null };
+global.mongoose = cached;
 
 async function connect() {
   if (cached.conn) {
